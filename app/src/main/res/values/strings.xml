@@ -7,6 +7,10 @@ DES密钥长度为8字节\n
 DESede密钥长度为16字节或24字节\n
 AES密钥长度为16字节、24字节或32字节\n
 \n
+NoPadding\n
+DES/DESede待加密内容必须为8的整数倍字节\n
+AES待加密内容必须为16的整数倍字节\n
+\n
 加密方式、类型、填充方式\n
 AES/CBC/ISO10126Padding\n
 AES/CBC/NoPadding\n
