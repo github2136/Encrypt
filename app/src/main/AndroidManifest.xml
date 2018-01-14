@@ -18,9 +18,9 @@
         </activity>
         <activity android:name=".MDActivity">
         </activity>
-        <activity android:name=".EncryptlActivity">
-        </activity>
-        <activity android:name=".EncryptActivity">
+        <activity
+            android:name=".EncryptActivity"
+            android:windowSoftInputMode="stateAlwaysHidden">
         </activity>
     </application>
 

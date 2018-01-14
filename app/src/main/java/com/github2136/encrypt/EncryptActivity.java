@@ -4,7 +4,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Base64;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,10 +18,10 @@ import javax.crypto.SecretKey;
 
 public class EncryptActivity extends AppCompatActivity {
     private Spinner spType, spMode, spPadding;
-    private EditText etPrakey, etIv, etContent, etResult;
+    private EditText etPrikey, etPubkey, etIv, etContent, etResult;
     private TextView tvPrikey, tvPubkey;
     private Button btnKey, btnEncrypt, btnDecrypt, btnCopyPri, btnCopyPub;
-    private LinearLayout llPub;
+    private LinearLayout llPub, llPubEdit;
     private ClipboardUtil mClipboardUtil;
 
     @Override
@@ -33,7 +32,8 @@ public class EncryptActivity extends AppCompatActivity {
         spType = (Spinner) findViewById(R.id.sp_type);
         spMode = (Spinner) findViewById(R.id.sp_mode);
         spPadding = (Spinner) findViewById(R.id.sp_padding);
-        etPrakey = (EditText) findViewById(R.id.et_prakey);
+        etPrikey = (EditText) findViewById(R.id.et_prikey);
+        etPubkey = (EditText) findViewById(R.id.et_pubkey);
 
         etIv = (EditText) findViewById(R.id.et_iv);
         etContent = (EditText) findViewById(R.id.et_content);
@@ -48,6 +48,7 @@ public class EncryptActivity extends AppCompatActivity {
         btnCopyPri = (Button) findViewById(R.id.btn_copy_pri);
         btnCopyPub = (Button) findViewById(R.id.btn_copy_pub);
         llPub = (LinearLayout) findViewById(R.id.ll_pub);
+        llPubEdit = (LinearLayout) findViewById(R.id.ll_pub_edit);
 
         spType.setOnItemSelectedListener(mOnItemSelectedListener);
 
@@ -64,11 +65,12 @@ public class EncryptActivity extends AppCompatActivity {
         public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
             if (position == 3) {
                 llPub.setVisibility(View.VISIBLE);
-                etPrakey.setText(null);
-                etPrakey.setEnabled(false);
+                llPubEdit.setVisibility(View.VISIBLE);
+                etPrikey.setText(null);
+                etPubkey.setText(null);
             } else {
                 llPub.setVisibility(View.GONE);
-                etPrakey.setEnabled(true);
+                llPubEdit.setVisibility(View.GONE);
             }
         }
 
@@ -83,7 +85,8 @@ public class EncryptActivity extends AppCompatActivity {
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_key:
-                    etPrakey.setText(null);
+                    etPrikey.setText(null);
+                    etPubkey.setText(null);
                     if (getType().equals(EncryptUtil.RSA)) {
                         KeyPair kp = (KeyPair) EncryptUtil.getKey(getType(), getKeySize());
                         tvPrikey.setText(Base64.encodeToString(kp.getPrivate().getEncoded(), Base64.NO_WRAP));
@@ -96,12 +99,16 @@ public class EncryptActivity extends AppCompatActivity {
                 case R.id.btn_encrypt: {
                     byte[] key;
                     if (getType().equals(EncryptUtil.RSA)) {
-                        key = Base64.decode(tvPubkey.getText().toString(), Base64.NO_WRAP);
+                        if (TextUtils.isEmpty(etPubkey.getText().toString())) {
+                            key = Base64.decode(tvPubkey.getText().toString(), Base64.NO_WRAP);
+                        } else {
+                            key = Base64.decode(etPubkey.getText().toString(), Base64.NO_WRAP);
+                        }
                     } else {
-                        if (TextUtils.isEmpty(etPrakey.getText().toString())) {
+                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
                             key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
                         } else {
-                            key = etPrakey.getText().toString().getBytes();
+                            key = etPrikey.getText().toString().getBytes();
                         }
                     }
                     byte[] encryptData = EncryptUtil.getInstance(getType())
@@ -122,12 +129,16 @@ public class EncryptActivity extends AppCompatActivity {
                 case R.id.btn_decrypt: {
                     byte[] key;
                     if (getType().equals(EncryptUtil.RSA)) {
-                        key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
-                    } else {
-                        if (TextUtils.isEmpty(etPrakey.getText().toString())) {
+                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
                             key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
                         } else {
-                            key = etPrakey.getText().toString().getBytes();
+                            key = Base64.decode(etPrikey.getText().toString(), Base64.NO_WRAP);
+                        }
+                    } else {
+                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
+                            key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
+                        } else {
+                            key = etPrikey.getText().toString().getBytes();
                         }
                     }
                     byte[] decryptData = EncryptUtil.getInstance(getType())
