@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="md_type">
+        <item>MD5</item>
+        <item>SHA-1</item>
+        <item>SHA-224</item>
+        <item>SHA-256</item>
+        <item>SHA-384</item>
+        <item>SHA-512</item>
+    </string-array>
+    <string-array name="encrypt_type">
+        <item>DES</item>
+        <item>DESede</item>
+        <item>AES</item>
+        <item>RSA</item>
+    </string-array>
+    <string-array name="encrypt_mode">
+        <item>CBC</item>
+        <item>CFB</item>
+        <item>CTR</item>
+        <item>CTS</item>
+        <item>ECB</item>
+        <item>OFB</item>
+        <item>NONE</item>
+    </string-array>
+    <string-array name="encrypt_padding">
+        <item>PKCS5</item>
+        <item>NOPADDING</item>
+        <item>ISO10126</item>
+        <item>OAEP</item>
+        <item>OAEP_SHA1</item>
+        <item>OAEP_SHA256</item>
+        <item>PKCS1</item>
+    </string-array>
+</resources>
