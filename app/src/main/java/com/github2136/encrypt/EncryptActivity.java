@@ -1,240 +1,57 @@
 package com.github2136.encrypt;
 
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
-import android.util.Base64;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
-import android.widget.Spinner;
-import android.widget.TextView;
 
-import java.security.KeyPair;
-
-import javax.crypto.SecretKey;
+import com.github2136.encrypt.encrypt.AESActivity;
+import com.github2136.encrypt.encrypt.DESActivity;
+import com.github2136.encrypt.encrypt.DESedeActivity;
+import com.github2136.encrypt.encrypt.RSAActivity;
 
 public class EncryptActivity extends AppCompatActivity {
-    private Spinner spType, spMode, spPadding;
-    private EditText etPrikey, etPubkey, etIv, etContent, etResult;
-    private TextView tvPrikey, tvPubkey;
-    private Button btnKey, btnEncrypt, btnDecrypt, btnCopyPri, btnCopyPub;
-    private LinearLayout llPub, llPubEdit;
-    private ClipboardUtil mClipboardUtil;
+
+    private Button btnDES, btnDESede, btnAES, btnRSA;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_encrypt);
-        mClipboardUtil = new ClipboardUtil(this);
-        spType = (Spinner) findViewById(R.id.sp_type);
-        spMode = (Spinner) findViewById(R.id.sp_mode);
-        spPadding = (Spinner) findViewById(R.id.sp_padding);
-        etPrikey = (EditText) findViewById(R.id.et_prikey);
-        etPubkey = (EditText) findViewById(R.id.et_pubkey);
+        setTitle("加密");
+        btnDES = (Button) findViewById(R.id.btn_des);
+        btnDESede = (Button) findViewById(R.id.btn_desede);
+        btnAES = (Button) findViewById(R.id.btn_aes);
+        btnRSA = (Button) findViewById(R.id.btn_rsa);
 
-        etIv = (EditText) findViewById(R.id.et_iv);
-        etContent = (EditText) findViewById(R.id.et_content);
-        etResult = (EditText) findViewById(R.id.et_result);
-
-        tvPrikey = (TextView) findViewById(R.id.tv_prikey);
-        tvPubkey = (TextView) findViewById(R.id.tv_pubkey);
-
-        btnKey = (Button) findViewById(R.id.btn_key);
-        btnEncrypt = (Button) findViewById(R.id.btn_encrypt);
-        btnDecrypt = (Button) findViewById(R.id.btn_decrypt);
-        btnCopyPri = (Button) findViewById(R.id.btn_copy_pri);
-        btnCopyPub = (Button) findViewById(R.id.btn_copy_pub);
-        llPub = (LinearLayout) findViewById(R.id.ll_pub);
-        llPubEdit = (LinearLayout) findViewById(R.id.ll_pub_edit);
-
-        spType.setOnItemSelectedListener(mOnItemSelectedListener);
-
-        btnKey.setOnClickListener(mOnClickListener);
-        btnEncrypt.setOnClickListener(mOnClickListener);
-        btnDecrypt.setOnClickListener(mOnClickListener);
-        btnCopyPri.setOnClickListener(mOnClickListener);
-        btnCopyPub.setOnClickListener(mOnClickListener);
-
+        btnDES.setOnClickListener(mOnClickListener);
+        btnDESede.setOnClickListener(mOnClickListener);
+        btnAES.setOnClickListener(mOnClickListener);
+        btnRSA.setOnClickListener(mOnClickListener);
     }
-
-    private AdapterView.OnItemSelectedListener mOnItemSelectedListener = new AdapterView.OnItemSelectedListener() {
-        @Override
-        public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-            if (position == 3) {
-                llPub.setVisibility(View.VISIBLE);
-                llPubEdit.setVisibility(View.VISIBLE);
-                etPrikey.setText(null);
-                etPubkey.setText(null);
-            } else {
-                llPub.setVisibility(View.GONE);
-                llPubEdit.setVisibility(View.GONE);
-            }
-        }
-
-        @Override
-        public void onNothingSelected(AdapterView<?> parent) {
-
-        }
-    };
 
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            Intent intent = null;
             switch (v.getId()) {
-                case R.id.btn_key:
-                    etPrikey.setText(null);
-                    etPubkey.setText(null);
-                    if (getType().equals(EncryptUtil.RSA)) {
-                        KeyPair kp = (KeyPair) EncryptUtil.getKey(getType(), getKeySize());
-                        tvPrikey.setText(Base64.encodeToString(kp.getPrivate().getEncoded(), Base64.NO_WRAP));
-                        tvPubkey.setText(Base64.encodeToString(kp.getPublic().getEncoded(), Base64.NO_WRAP));
-                    } else {
-                        SecretKey key = (SecretKey) EncryptUtil.getKey(getType(), getKeySize());
-                        tvPrikey.setText(Base64.encodeToString(key.getEncoded(), Base64.NO_WRAP));
-                    }
+                case R.id.btn_des:
+                    intent = new Intent(EncryptActivity.this, DESActivity.class);
                     break;
-                case R.id.btn_encrypt: {
-                    byte[] key;
-                    if (getType().equals(EncryptUtil.RSA)) {
-                        if (TextUtils.isEmpty(etPubkey.getText().toString())) {
-                            key = Base64.decode(tvPubkey.getText().toString(), Base64.NO_WRAP);
-                        } else {
-                            key = Base64.decode(etPubkey.getText().toString(), Base64.NO_WRAP);
-                        }
-                    } else {
-                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
-                            key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
-                        } else {
-                            key = etPrikey.getText().toString().getBytes();
-                        }
-                    }
-                    byte[] encryptData = EncryptUtil.getInstance(getType())
-                            .setKey(key)
-                            .setData(etContent.getText().toString().getBytes())
-                            .setMode(getMode())
-                            .setIV(etIv.getText().toString().getBytes())
-                            .setPadding(getPadding())
-                            .encrypt();
-                    if (encryptData != null) {
-                        String encrypt = Base64.encodeToString(encryptData, Base64.NO_WRAP);
-                        etResult.setText(encrypt);
-                    } else {
-                        etResult.setText("失败");
-                    }
-                }
-                break;
-                case R.id.btn_decrypt: {
-                    byte[] key;
-                    if (getType().equals(EncryptUtil.RSA)) {
-                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
-                            key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
-                        } else {
-                            key = Base64.decode(etPrikey.getText().toString(), Base64.NO_WRAP);
-                        }
-                    } else {
-                        if (TextUtils.isEmpty(etPrikey.getText().toString())) {
-                            key = Base64.decode(tvPrikey.getText().toString(), Base64.NO_WRAP);
-                        } else {
-                            key = etPrikey.getText().toString().getBytes();
-                        }
-                    }
-                    byte[] decryptData = EncryptUtil.getInstance(getType())
-                            .setKey(key)
-                            .setData(Base64.decode(etResult.getText().toString(), Base64.NO_WRAP))
-                            .setMode(getMode())
-                            .setIV(etIv.getText().toString().getBytes())
-                            .setPadding(getPadding())
-                            .decrypt();
-                    if (decryptData != null) {
-                        String decrypt = new String(decryptData);
-                        etContent.setText(decrypt);
-                    } else {
-                        etContent.setText("失败");
-                    }
-                }
-                break;
-                case R.id.btn_copy_pri:
-                    mClipboardUtil.copy("encrypt_private", tvPrikey.getText().toString());
+                case R.id.btn_desede:
+                    intent = new Intent(EncryptActivity.this, DESedeActivity.class);
                     break;
-                case R.id.btn_copy_pub:
-                    mClipboardUtil.copy("encrypt_public", tvPubkey.getText().toString());
+                case R.id.btn_aes:
+                    intent = new Intent(EncryptActivity.this, AESActivity.class);
+
+                    break;
+                case R.id.btn_rsa:
+                    intent = new Intent(EncryptActivity.this, RSAActivity.class);
                     break;
             }
+            startActivity(intent);
         }
     };
-
-    private String getType() {
-        switch (spType.getSelectedItemPosition()) {
-            case 0:
-                return EncryptUtil.DES;
-            case 1:
-                return EncryptUtil.DESede;
-            case 2:
-                return EncryptUtil.AES;
-            case 3:
-                return EncryptUtil.RSA;
-            default:
-                return null;
-        }
-    }
-
-    private String getMode() {
-        switch (spMode.getSelectedItemPosition()) {
-            case 0:
-                return EncryptUtil.MODE_CBC;
-            case 1:
-                return EncryptUtil.MODE_CFB;
-            case 2:
-                return EncryptUtil.MODE_CTR;
-            case 3:
-                return EncryptUtil.MODE_CTS;
-            case 4:
-                return EncryptUtil.MODE_ECB;
-            case 5:
-                return EncryptUtil.MODE_OFB;
-            case 6:
-                return EncryptUtil.MODE_NONE;
-            default:
-                return null;
-        }
-    }
-
-    private String getPadding() {
-        switch (spPadding.getSelectedItemPosition()) {
-            case 0:
-                return EncryptUtil.PADDING_PKCS5;
-            case 1:
-                return EncryptUtil.PADDING_NO;
-            case 2:
-                return EncryptUtil.PADDING_ISO10126;
-            case 3:
-                return EncryptUtil.PADDING_OAEP;
-            case 4:
-                return EncryptUtil.PADDING_OAEP_SHA_1;
-            case 5:
-                return EncryptUtil.PADDING_OAEP_SHA_256;
-            case 6:
-                return EncryptUtil.PADDING_PKCS1;
-            default:
-                return null;
-        }
-    }
-
-    private int getKeySize() {
-        switch (spType.getSelectedItemPosition()) {
-            case 0:
-                return 64;
-            case 1:
-                return 192;
-            case 2:
-                return 192;
-            case 3:
-                return 1024;
-            default:
-                return 0;
-        }
-    }
 }

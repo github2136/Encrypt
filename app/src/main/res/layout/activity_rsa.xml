@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.github2136.encrypt.MDActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/sp_mode"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:entries="@array/encrypt_mode_rsa"/>
+
+        <Spinner
+            android:id="@+id/sp_padding"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:entries="@array/encrypt_padding_rsa"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义私钥"/>
+
+        <EditText
+            android:id="@+id/et_prikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="私钥"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="自定义公钥"/>
+
+        <EditText
+            android:id="@+id/et_pubkey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="公钥"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="私钥"/>
+
+        <TextView
+            android:id="@+id/tv_prikey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_copy_pri"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复制私钥"/>
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="公钥"/>
+
+        <TextView
+            android:id="@+id/tv_pubkey"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/btn_copy_pub"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="复制公钥"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/rb_key_128"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:checked="true"
+                android:text="128字节(1024位)"/>
+
+            <RadioButton
+                android:id="@+id/rb_key_256"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="256字节(2048位)"/>
+
+            <RadioButton
+                android:id="@+id/rb_key_512"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="512字节(4096位)"
+                android:visibility="gone"/>
+        </RadioGroup>
+
+        <Button
+            android:id="@+id/btn_key"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="生成密钥"/>
+
+        <EditText
+            android:id="@+id/et_content"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="加密内容"/>
+
+        <Button
+            android:id="@+id/btn_encrypt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="加密"/>
+
+        <EditText
+            android:id="@+id/et_result"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="密文"/>
+
+        <Button
+            android:id="@+id/btn_decrypt"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="解密"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="@string/description_rsa"/>
+    </LinearLayout>
+</ScrollView>

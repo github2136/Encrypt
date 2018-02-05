@@ -9,139 +9,32 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:orientation="vertical">
 
-        <Spinner
-            android:id="@+id/sp_type"
+        <Button
+            android:id="@+id/btn_des"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:entries="@array/encrypt_type"/>
-
-        <Spinner
-            android:id="@+id/sp_mode"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/encrypt_mode"/>
-
-        <Spinner
-            android:id="@+id/sp_padding"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:entries="@array/encrypt_padding"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="自定义私钥"/>
-
-        <EditText
-            android:id="@+id/et_prikey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="私钥"/>
-
-        <LinearLayout
-            android:id="@+id/ll_pub_edit"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="自定义公钥"/>
-
-            <EditText
-                android:id="@+id/et_pubkey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="公钥"/>
-        </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="向量"/>
-
-        <EditText
-            android:id="@+id/et_iv"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="向量"/>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="私钥"/>
-
-        <TextView
-            android:id="@+id/tv_prikey"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:text="DES"/>
 
         <Button
-            android:id="@+id/btn_copy_pri"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="复制私钥"/>
-
-        <LinearLayout
-            android:id="@+id/ll_pub"
+            android:id="@+id/btn_desede"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="公钥"/>
-
-            <TextView
-                android:id="@+id/tv_pubkey"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"/>
-
-            <Button
-                android:id="@+id/btn_copy_pub"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="复制公钥"/>
-        </LinearLayout>
+            android:text="DESede"/>
 
         <Button
-            android:id="@+id/btn_key"
+            android:id="@+id/btn_aes"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="生成密钥"/>
-
-        <EditText
-            android:id="@+id/et_content"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="加密内容"/>
+            android:text="aes"/>
 
         <Button
-            android:id="@+id/btn_encrypt"
+            android:id="@+id/btn_rsa"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="加密"/>
+            android:text="RSA"/>
 
-        <EditText
-            android:id="@+id/et_result"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="密文"/>
-
-        <Button
-            android:id="@+id/btn_decrypt"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="解密"/>
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="@string/description"/>
     </LinearLayout>
 </ScrollView>

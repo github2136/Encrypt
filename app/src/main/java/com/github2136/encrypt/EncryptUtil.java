@@ -19,7 +19,7 @@ import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**
-  * 对称加密
+ * 对称加密
  * Created by yubin on 2018/1/12.<br>
  * ECB不可添加向量IV<br>
  * DES/DESede IV长度为8字节<br>
@@ -28,7 +28,6 @@ import javax.crypto.spec.SecretKeySpec;
  * DESede key长度为16字节或24字节<br>
  * AES key长度为16字节、24字节或32字节<br>
  * RSA 生成的key至少1024位
-
  */
 
 public class EncryptUtil {
@@ -160,7 +159,7 @@ public class EncryptUtil {
                 key = new SecretKeySpec(mKey, mEncryptType);//生成密钥
             }
             Cipher cipher = Cipher.getInstance(mEncryptType + mMode + mPadding);
-            if (!mMode.equals(MODE_ECB)) {
+            if (!mEncryptType.equals(RSA) && !mMode.equals(MODE_ECB)) {
                 IvParameterSpec ips = new IvParameterSpec(mIV);
                 cipher.init(Cipher.ENCRYPT_MODE, key, ips);
             } else {
@@ -190,7 +189,7 @@ public class EncryptUtil {
                 key = new SecretKeySpec(mKey, mEncryptType);//生成密钥
             }
             Cipher cipher = Cipher.getInstance(mEncryptType + mMode + mPadding);
-            if (!mMode.equals(MODE_ECB)) {
+            if (!mEncryptType.equals(RSA) && !mMode.equals(MODE_ECB)) {
                 IvParameterSpec ips = new IvParameterSpec(mIV);
                 cipher.init(Cipher.DECRYPT_MODE, key, ips);
             } else {
@@ -208,7 +207,7 @@ public class EncryptUtil {
         try {
             if (type.equals(RSA)) {
                 KeyPairGenerator keyPairGenerator = KeyPairGenerator.getInstance(type);
-                keyPairGenerator.initialize(size,new SecureRandom());
+                keyPairGenerator.initialize(size, new SecureRandom());
                 KeyPair kp = keyPairGenerator.genKeyPair();
                 return kp;
             } else {

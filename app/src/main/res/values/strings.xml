@@ -79,4 +79,24 @@ RSA/NONE/OAEPPadding\n
 RSA/NONE/OAEPwithSHA-1andMGF1Padding\n
 RSA/NONE/OAEPwithSHA-256andMGF1Padding\n
 RSA/NONE/PKCS1Padding</string>
+
+    <string name="description_desc">DES除了ECB模式其他模式必须加向量
+        \nDES向量长度为8字节(64位)
+        \nDES密钥长度为8字节(64位)
+        \n
+        \nNoPadding\nDES待加密内容必须为8的整数倍字节</string>
+    <string name="description_descede">DESede除了ECB模式其他模式必须加向量
+        \nDESede向量长度为8字节(64位)
+        \nDESede密钥长度为16字节(128位)或24字节(192位)
+        \n
+        \nNoPadding
+        \nDES/DESede待加密内容必须为8的整数倍字节</string>
+    <string name="description_aes">AES除了ECB模式其他模式必须加向量
+        \nAES向量长度为16字节(128位)
+        \nAES密钥长度为16字节(128位)、24字节(192位)或32字节(256位)
+        \n
+        \nNoPadding
+        \nAES待加密内容必须为16的整数倍字节</string>
+    <string name="description_rsa">除了NoPadding其他填充方式每次加密结果都会不同
+    \n秘钥长度越长生成时间越长</string>
 </resources>

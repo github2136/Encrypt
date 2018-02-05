@@ -8,12 +8,7 @@
         <item>SHA-384</item>
         <item>SHA-512</item>
     </string-array>
-    <string-array name="encrypt_type">
-        <item>DES</item>
-        <item>DESede</item>
-        <item>AES</item>
-        <item>RSA</item>
-    </string-array>
+    <!--mode-->
     <string-array name="encrypt_mode">
         <item>CBC</item>
         <item>CFB</item>
@@ -23,10 +18,62 @@
         <item>OFB</item>
         <item>NONE</item>
     </string-array>
+    <string-array name="encrypt_mode_aes">
+        <item>CBC</item>
+        <item>CFB</item>
+        <item>CTR</item>
+        <item>CTS</item>
+        <item>ECB</item>
+        <item>OFB</item>
+    </string-array>
+    <string-array name="encrypt_mode_des">
+        <item>CBC</item>
+        <item>CFB</item>
+        <item>CTR</item>
+        <item>CTS</item>
+        <item>ECB</item>
+        <item>OFB</item>
+    </string-array>
+    <string-array name="encrypt_mode_desede">
+        <item>CBC</item>
+        <item>CFB</item>
+        <item>CTR</item>
+        <item>CTS</item>
+        <item>ECB</item>
+        <item>OFB</item>
+    </string-array>
+    <string-array name="encrypt_mode_rsa">
+        <item>ECB</item>
+        <item>NONE</item>
+    </string-array>
+    <!--padding-->
     <string-array name="encrypt_padding">
         <item>PKCS5</item>
         <item>NOPADDING</item>
         <item>ISO10126</item>
+        <item>OAEP</item>
+        <item>OAEP_SHA1</item>
+        <item>OAEP_SHA256</item>
+        <item>PKCS1</item>
+    </string-array>
+
+    <string-array name="encrypt_padding_aes">
+        <item>ISO10126</item>
+        <item>NOPADDING</item>
+        <item>PKCS5</item>
+    </string-array>
+    <string-array name="encrypt_padding_des">
+        <item>ISO10126</item>
+        <item>NOPADDING</item>
+        <item>PKCS5</item>
+    </string-array>
+    <string-array name="encrypt_padding_desede">
+        <item>ISO10126</item>
+        <item>NOPADDING</item>
+        <item>PKCS5</item>
+    </string-array>
+    <string-array name="encrypt_padding_rsa">
+        <item>NOPADDING</item>
         <item>OAEP</item>
         <item>OAEP_SHA1</item>
         <item>OAEP_SHA256</item>

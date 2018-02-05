@@ -27,6 +27,7 @@ public class MDActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_md);
+        setTitle("信息摘要");
         mClipboardUtil = new ClipboardUtil(this);
         spType = (Spinner) findViewById(R.id.sp_type);
         etContent = (EditText) findViewById(R.id.et_content);
@@ -46,7 +47,7 @@ public class MDActivity extends AppCompatActivity {
                         String type = spType.getSelectedItem().toString();
                         if (type.equals("SHA-224")) {
                             if (Build.VERSION.SDK_INT > 8 || Build.VERSION.SDK_INT < 22) {
-                                tvResult.setText("该Android版本不支持该类型");
+                                tvResult.setText("该Android版本不支持该类型(api：1–8,22+)\n当前api版本：" + Build.VERSION.SDK_INT);
                                 return;
                             }
                         }
