@@ -1,5 +1,7 @@
 package com.github2136.encrypt.encrypt;
 
+import android.app.ProgressDialog;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -26,7 +28,7 @@ public class RSAActivity extends AppCompatActivity {
     private Button btnKey, btnEncrypt, btnDecrypt, btnCopyPri, btnCopyPub;
     private RadioButton rbKey128, rbKey256, rbKey512;
     private ClipboardUtil mClipboardUtil;
-
+private ProgressDialog mProgressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,27 +62,44 @@ public class RSAActivity extends AppCompatActivity {
         btnEncrypt.setOnClickListener(mOnClickListener);
         btnDecrypt.setOnClickListener(mOnClickListener);
         btnCopyPub.setOnClickListener(mOnClickListener);
+        tvPrikey.setOnClickListener(mOnClickListener);
+        tvPubkey.setOnClickListener(mOnClickListener);
     }
 
+    private KeyPair kp;
     private View.OnClickListener mOnClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             switch (v.getId()) {
                 case R.id.btn_key: {
+                    mProgressDialog = new ProgressDialog(RSAActivity.this);
+                    mProgressDialog.setMessage("请稍后");
+                    mProgressDialog.show();
                     etPrikey.setText(null);
                     etPubkey.setText(null);
-                    KeyPair kp;
+                    tvPrikey.setMaxLines(4);
+                    tvPubkey.setMaxLines(4);
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (rbKey128.isChecked()) {
+                                kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 1024);
+                            } else if (rbKey256.isChecked()) {
+                                kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 2048);
+                            } else {
+                                kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 4096);
+                            }
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    mProgressDialog.dismiss();
+                                    tvPrikey.setText(Base64.encodeToString(kp.getPrivate().getEncoded(), Base64.NO_WRAP));
+                                    tvPubkey.setText(Base64.encodeToString(kp.getPublic().getEncoded(), Base64.NO_WRAP));
+                                }
+                            });
 
-                    if (rbKey128.isChecked()) {
-                        kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 1024);
-                    } else if (rbKey256.isChecked()) {
-                        kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 2048);
-                    } else {
-                        kp = (KeyPair) EncryptUtil.getKey(EncryptUtil.RSA, 4096);
-                    }
-
-                    tvPrikey.setText(Base64.encodeToString(kp.getPrivate().getEncoded(), Base64.NO_WRAP));
-                    tvPubkey.setText(Base64.encodeToString(kp.getPublic().getEncoded(), Base64.NO_WRAP));
+                        }
+                    }).start();
                 }
                 break;
                 case R.id.btn_encrypt: {
@@ -133,6 +152,36 @@ public class RSAActivity extends AppCompatActivity {
                     break;
                 case R.id.btn_copy_pub:
                     mClipboardUtil.copy("encrypt_public", tvPubkey.getText().toString());
+                    break;
+                case R.id.tv_prikey:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        if (tvPrikey.getMaxLines() == 4) {
+                            tvPrikey.setMaxLines(Integer.MAX_VALUE - 1);
+                        } else {
+                            tvPrikey.setMaxLines(4);
+                        }
+                    } else {
+                        if (tvPrikey.getLineCount() > 4) {
+                            tvPrikey.setMaxLines(Integer.MAX_VALUE - 1);
+                        } else {
+                            tvPrikey.setMaxLines(4);
+                        }
+                    }
+                    break;
+                case R.id.tv_pubkey:
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+                        if (tvPubkey.getMaxLines() == 4) {
+                            tvPubkey.setMaxLines(Integer.MAX_VALUE - 1);
+                        } else {
+                            tvPubkey.setMaxLines(4);
+                        }
+                    } else {
+                        if (tvPubkey.getLineCount() > 4) {
+                            tvPubkey.setMaxLines(Integer.MAX_VALUE - 1);
+                        } else {
+                            tvPubkey.setMaxLines(4);
+                        }
+                    }
                     break;
             }
         }

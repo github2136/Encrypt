@@ -55,7 +55,9 @@
         <TextView
             android:id="@+id/tv_prikey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="4"/>
 
         <Button
             android:id="@+id/btn_copy_pri"
@@ -72,7 +74,9 @@
         <TextView
             android:id="@+id/tv_pubkey"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"/>
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:maxLines="4"/>
 
         <Button
             android:id="@+id/btn_copy_pub"
